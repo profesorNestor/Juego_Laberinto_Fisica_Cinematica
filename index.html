@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🔬Laberinto de Física ⚛️ v3</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
         /* ===========================================
-           VARIABLES CSS - MANTENIENDO LO QUE FUNCIONABA
-           =========================================== */
+            VARIABLES CSS - MANTENIENDO LO QUE FUNCIONABA
+            =========================================== */
         :root {
             --background: 240 10% 3.9%;
             --foreground: 0 0% 98%;
@@ -35,8 +36,8 @@
             --option-selected-border: hsl(var(--accent));
         }
         /* ===========================================
-           RESET Y ESTILOS BASE
-           =========================================== */
+            RESET Y ESTILOS BASE
+            =========================================== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
@@ -52,8 +53,8 @@
             padding-bottom: 60px; /* Espacio para footer */
         }
         /* ===========================================
-           BOTONES GLOBALES - MEJORANDO LOS ORIGINALES
-           =========================================== */
+            BOTONES GLOBALES - MEJORANDO LOS ORIGINALES
+            =========================================== */
         #globalControlButtons {
             position: fixed;
             top: 10px;
@@ -77,8 +78,8 @@
         .global-btn:hover { background-color: hsl(var(--muted)); }
         .global-btn:active { transform: scale(0.95); }
         /* ===========================================
-           ESTILOS GENERALES DE BOTONES - MEJORADOS
-           =========================================== */
+            ESTILOS GENERALES DE BOTONES - MEJORADOS
+            =========================================== */
         .button {
             display: inline-flex; 
             align-items: center; 
@@ -126,8 +127,8 @@
 
         .button:active { transform: scale(0.97); }
         /* ===========================================
-           LAYOUT PRINCIPAL
-           =========================================== */
+            LAYOUT PRINCIPAL
+            =========================================== */
         .container { max-width: 1000px; width: 100%; padding: 1rem; }
 
         .card {
@@ -146,8 +147,8 @@
             margin-bottom: 0.5rem; 
         }
         /* ===========================================
-           SELECTOR DE NIVEL - MANTENIENDO FUNCIONAMIENTO
-           =========================================== */
+            SELECTOR DE NIVEL - MANTENIENDO FUNCIONAMIENTO
+            =========================================== */
         .level-selector { text-align: center; max-width: 500px; margin: 0 auto; }
         .level-selector h2 { margin-bottom: 1rem; font-size: 1.5rem; }
         .level-selector p { 
@@ -193,8 +194,8 @@
             margin-top: 1.5rem; 
         }
         /* ===========================================
-           UI DEL JUEGO - PRESERVANDO FUNCIONAMIENTO
-           =========================================== */
+            UI DEL JUEGO - PRESERVANDO FUNCIONAMIENTO
+            =========================================== */
         .game-ui-bar {
             display: flex; 
             justify-content: space-between; 
@@ -223,8 +224,8 @@
         #scoreValue { color: hsl(var(--accent)); font-weight: bold; }
         #questionProgressValue { color: hsl(var(--primary)); font-weight: bold; }
         /* ===========================================
-           BARRA DE PROGRESO
-           =========================================== */
+            BARRA DE PROGRESO
+            =========================================== */
         .progress-display { 
             display: flex; 
             align-items: center; 
@@ -250,8 +251,8 @@
             border-radius: 5px; 
         }
         /* ===========================================
-           LABERINTO - MANTENIENDO ESTILOS FUNCIONALES
-           =========================================== */
+            LABERINTO - MANTENIENDO ESTILOS FUNCIONALES
+            =========================================== */
         .game-maze {
             background-color: hsl(var(--background)); 
             position: relative; 
@@ -295,8 +296,8 @@
             50% { transform: scale(1.15); } 
         }
         /* ===========================================
-           JUGADOR (PAC-MAN) - MANTENIENDO FUNCIONAMIENTO
-           =========================================== */
+            JUGADOR (PAC-MAN) - MANTENIENDO FUNCIONAMIENTO
+            =========================================== */
         .pacman-player {
             width: var(--player-size, 20px); 
             height: var(--player-size, 20px);
@@ -327,8 +328,8 @@
             50% { clip-path: polygon(100% 40%, 40% 50%, 100% 60%); }
         }
         /* ===========================================
-           FANTASMAS - MANTENIENDO FUNCIONAMIENTO
-           =========================================== */
+            FANTASMAS - MANTENIENDO FUNCIONAMIENTO
+            =========================================== */
         .ghost {
             width: var(--ghost-size, 20px); 
             height: var(--ghost-size, 20px);
@@ -367,8 +368,8 @@
         .ghost[data-look="down"] .ghost-pupil { transform: translateY(1px); }
         .ghost[data-look="up"] .ghost-pupil { transform: translateY(-1px); }
         /* ===========================================
-           CONTROLES MÓVILES
-           =========================================== */
+            CONTROLES MÓVILES
+            =========================================== */
         .mobile-controls {
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -401,8 +402,8 @@
         .right { grid-column: 3; grid-row: 2; } 
         .down { grid-column: 2; grid-row: 3; }
         /* ===========================================
-           DIÁLOGOS - ESTRUCTURA BÁSICA
-           =========================================== */
+            DIÁLOGOS - ESTRUCTURA BÁSICA
+            =========================================== */
         .dialog-overlay {
             position: fixed; 
             top: 0; 
@@ -445,8 +446,8 @@
             margin-top: 1.5rem; 
         }
         /* ===========================================
-           NOTIFICACIONES TOAST
-           =========================================== */
+            NOTIFICACIONES TOAST
+            =========================================== */
         .toast-container { 
             position: fixed; 
             bottom: 1rem; 
@@ -542,8 +543,8 @@
 
 
         /* ===========================================
-           FOOTER
-           =========================================== */
+            FOOTER
+            =========================================== */
         footer {
             text-align: center; 
             padding: 1rem 0; 
@@ -552,8 +553,8 @@
             font-size: 0.85rem;
         }
         /* ===========================================
-           MEDIA QUERIES
-           =========================================== */
+            MEDIA QUERIES
+            =========================================== */
         @media (max-width: 768px) {
             body { padding: 0.5rem; padding-bottom: 50px; }
             .container { padding: 0.5rem; }
@@ -608,6 +609,155 @@
         // 🔬 LABERINTO DE FÍSICA v3 - CÓDIGO COMPLETO Y CORREGIDO
         // ===============================================================
         console.log("🔬 Laberinto de Física v3 - Iniciando...");
+
+        // ===============================================================
+        // 🔊 GESTOR DE SONIDOS (NUEVO)
+        // ===============================================================
+        const soundManager = {
+            isInitialized: false,
+            sounds: {},
+            masterVolume: -10, // Volumen maestro en dB
+
+            // Inicializar Tone.js (debe ser llamado por una interacción del usuario)
+            async init() {
+                if (this.isInitialized || Tone.context.state === 'running') {
+                    this.isInitialized = true;
+                    return;
+                }
+                try {
+                    await Tone.start();
+                    Tone.Destination.volume.value = this.masterVolume;
+                    this.isInitialized = true;
+                    console.log("🔊 Sound Manager inicializado y AudioContext iniciado.");
+                    this.loadSounds();
+                } catch (e) {
+                    console.error("Error al iniciar AudioContext:", e);
+                    // Podríamos mostrar un mensaje al usuario para que interactúe
+                }
+            },
+
+            // Cargar/definir los sonidos
+            loadSounds() {
+                if (!this.isInitialized) return;
+                // Sonido de movimiento del jugador (chomp)
+                this.sounds.chomp = new Tone.Synth({
+                    oscillator: { type: "square" },
+                    envelope: { attack: 0.005, decay: 0.05, sustain: 0, release: 0.1 },
+                    volume: -15
+                }).toDestination();
+
+                // Sonido de recolección de fruta
+                this.sounds.fruitCollect = new Tone.Synth({
+                    oscillator: { type: "sine" },
+                    envelope: { attack: 0.01, decay: 0.2, sustain: 0.1, release: 0.2 },
+                    volume: -10
+                }).toDestination();
+
+                // Sonido de recolección de power pellet
+                this.sounds.powerPelletCollect = new Tone.Synth({
+                    oscillator: { type: "sawtooth" },
+                    envelope: { attack: 0.01, decay: 0.3, sustain: 0.2, release: 0.3 },
+                    volume: -8
+                }).toDestination();
+                this.sounds.powerPelletActiveLoop = new Tone.Loop(time => {
+                    if (gameState.powerPelletActive) {
+                         new Tone.Synth({
+                            oscillator: { type: "pulse", width: 0.6 },
+                            envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 },
+                            volume: -20
+                        }).toDestination().triggerAttackRelease("A4", "32n", time);
+                    }
+                }, "8n").start(0);
+
+
+                // Sonido de comer fantasma
+                this.sounds.ghostEaten = new Tone.Synth({
+                    oscillator: { type: "triangle" },
+                    envelope: { attack: 0.05, decay: 0.4, sustain: 0, release: 0.2 },
+                    volume: -5
+                }).toDestination();
+
+                // Sonido de jugador atrapado
+                this.sounds.playerCaught = new Tone.NoiseSynth({
+                    noise: { type: "pink" },
+                    envelope: { attack: 0.01, decay: 0.5, sustain: 0, release: 0.1 },
+                    volume: -5
+                }).toDestination();
+
+                // Sonido de respuesta correcta
+                this.sounds.correctAnswer = new Tone.Synth({
+                    oscillator: { type: "triangle" },
+                    envelope: { attack: 0.01, decay: 0.2, sustain: 0.1, release: 0.2 },
+                    volume: -10
+                }).toDestination();
+
+                // Sonido de respuesta incorrecta
+                this.sounds.incorrectAnswer = new Tone.Synth({
+                    oscillator: { type: "square" },
+                    envelope: { attack: 0.01, decay: 0.3, sustain: 0, release: 0.2 },
+                    volume: -12
+                }).toDestination();
+
+                // Sonido de inicio de juego
+                this.sounds.gameStart = new Tone.Synth({
+                    oscillator: { type: "sine" },
+                    envelope: { attack: 0.1, decay: 0.5, sustain: 0.2, release: 0.5 },
+                    volume: -8
+                }).toDestination();
+
+                // Sonido de victoria
+                this.sounds.gameWin = new Tone.Synth({
+                     oscillator: { type: "sawtooth" },
+                     envelope: { attack: 0.1, decay: 1.0, sustain: 0.5, release: 1.0 },
+                     volume: -7
+                }).toDestination();
+
+                // Sonido de derrota (game over)
+                this.sounds.gameOver = new Tone.Synth({
+                    oscillator: { type: "square" },
+                    envelope: { attack: 0.1, decay: 1.2, sustain: 0, release: 0.5 },
+                    volume: -9
+                }).toDestination();
+
+                // Sonido de click en botón
+                this.sounds.buttonClick = new Tone.Synth({
+                    oscillator: { type: "sine" },
+                    envelope: { attack: 0.001, decay: 0.1, sustain: 0, release: 0.1 },
+                    volume: -18
+                }).toDestination();
+                console.log("🔊 Sonidos cargados/definidos.");
+            },
+
+            // Reproducir un sonido
+            play(soundName, note = "C4", duration = "8n") {
+                if (!this.isInitialized || !this.sounds[soundName] || Tone.context.state !== 'running') {
+                    // console.warn(`Sonido "${soundName}" no se puede reproducir. Estado: ${this.isInitialized}, ${Tone.context.state}`);
+                    return;
+                }
+                try {
+                    if (soundName === 'playerCaught') {
+                        this.sounds.playerCaught.triggerAttackRelease(duration);
+                    } else if (this.sounds[soundName] instanceof Tone.Synth) {
+                        this.sounds[soundName].triggerAttackRelease(note, duration);
+                    }
+                } catch (e) {
+                    console.error(`Error al reproducir sonido ${soundName}:`, e);
+                }
+            },
+
+            // Iniciar bucle de sonido (ej. power pellet)
+            startLoop(soundName) {
+                if (!this.isInitialized || !this.sounds[soundName] || !(this.sounds[soundName] instanceof Tone.Loop) || Tone.context.state !== 'running') return;
+                this.sounds[soundName].start(0);
+            },
+
+            // Detener bucle de sonido
+            stopLoop(soundName) {
+                if (!this.isInitialized || !this.sounds[soundName] || !(this.sounds[soundName] instanceof Tone.Loop)) return;
+                this.sounds[soundName].stop();
+            }
+        };
+
 
         // ===============================================================
         // 📊 CONSTANTES DEL JUEGO
@@ -1569,29 +1719,29 @@
             easy: {
                 temas: ["magnitudes", "cinematica"],
                 distribucion: {
-                    magnitudes: 8,      // 8 preguntas de magnitudes
-                    cinematica: 4       // 4 preguntas de cinemática básica
+                    magnitudes: 8,   // 8 preguntas de magnitudes
+                    cinematica: 4    // 4 preguntas de cinemática básica
                 }
             },
             medium: {
                 temas: ["mru", "mrua"],
                 distribucion: {
-                    mru: 8,             // 8 preguntas de MRU
-                    mrua: 8             // 8 preguntas de MRUA
+                    mru: 8,          // 8 preguntas de MRU
+                    mrua: 8          // 8 preguntas de MRUA
                 }
             },
             hard: {
                 temas: ["mrua", "vertical"],
                 distribucion: {
-                    mrua: 7,            // 7 preguntas de MRUA
-                    vertical: 13        // 13 preguntas de movimiento vertical
+                    mrua: 7,         // 7 preguntas de MRUA
+                    vertical: 13     // 13 preguntas de movimiento vertical
                 }
             },
             expert: {
                 temas: ["circular", "parabolico"],
                 distribucion: {
-                    circular: 12,       // 12 preguntas de movimiento circular
-                    parabolico: 13      // 13 preguntas de movimiento parabólico
+                    circular: 12,    // 12 preguntas de movimiento circular
+                    parabolico: 13   // 13 preguntas de movimiento parabólico
                 }
             }
         };
@@ -1909,6 +2059,7 @@
             // Agregar event listeners para las pestañas de nivel
             document.querySelectorAll(".level-tab").forEach(tab => {
                 tab.addEventListener("click", () => {
+                    soundManager.play('buttonClick', 'C5', '16n'); // Sonido de click
                     const newLevel = tab.getAttribute("data-level");
                     if (newLevel !== gameState.level) {
                         gameState.level = newLevel;
@@ -1922,11 +2073,19 @@
             const helpBtn = document.getElementById("helpBtn");
 
             if (startBtn) {
-                startBtn.addEventListener("click", startGame);
+                startBtn.addEventListener("click", () => {
+                    soundManager.init().then(() => { // Asegurar que Tone.js esté iniciado
+                         soundManager.play('buttonClick', 'E5', '16n');
+                         startGame();
+                    });
+                });
             }
 
             if (helpBtn) {
-                helpBtn.addEventListener("click", showHelpDialog);
+                helpBtn.addEventListener("click", () => {
+                    soundManager.play('buttonClick', 'D5', '16n');
+                    showHelpDialog();
+                });
             }
         }
 
@@ -1995,6 +2154,7 @@
             const closeBtn = helpDialog.querySelector('#closeHelpBtnDialog');
             if (closeBtn) {
                 closeBtn.addEventListener("click", () => {
+                    soundManager.play('buttonClick', 'C5', '16n');
                     helpDialog.style.display = 'none';
                 });
             }
@@ -2008,6 +2168,11 @@
          */
         function startGame() {
             console.log(`🚀 Iniciando juego en nivel: ${gameState.level}`);
+             // Asegurar que Tone.js esté inicializado (importante si se salta el selector de nivel)
+            soundManager.init().then(() => {
+                soundManager.play('gameStart', 'C4', '1n');
+            });
+
 
             // Resetear estado del juego
             gameState.gameStarted = true;
@@ -2513,6 +2678,7 @@
                 // Mover jugador
                 gameState.playerPosition = newPos;
                 gameState.playerDirection = direction;
+                soundManager.play('chomp', 'C3', '32n'); // Sonido de movimiento
 
                 // Verificar colisión con items
                 checkItemCollection();
@@ -2571,6 +2737,7 @@
                 } else {
                     // Fruta normal sin pregunta
                     gameState.score += GAME_CONFIG.POINTS.FRUIT_BASIC;
+                    soundManager.play('fruitCollect', 'E5', '16n');
                     showToast("¡Fruta!", `+${GAME_CONFIG.POINTS.FRUIT_BASIC} puntos`, "default");
                     updateGameUI();
                 }
@@ -2583,6 +2750,8 @@
          */
         function handlePowerPelletCollection() {
             console.log("💊 Power pellet recolectado");
+            soundManager.play('powerPelletCollect', 'G5', '8n');
+            // soundManager.startLoop('powerPelletActiveLoop'); // Activar sonido de bucle
 
             // Dar vida extra si no está al máximo
             if (gameState.lives < GAME_CONFIG.MAX_LIVES) {
@@ -2623,6 +2792,7 @@
             gameState.vulnerableGhostsTimer = setTimeout(() => {
                 gameState.ghostsVulnerable = false;
                 gameState.powerPelletActive = false;
+                // soundManager.stopLoop('powerPelletActiveLoop'); // Detener sonido de bucle
                 
                 gameState.ghosts.forEach(ghost => {
                     ghost.vulnerable = false;
@@ -2655,6 +2825,7 @@
          */
         function handleQuestionFruit(question) {
             console.log(`❓ Fruta con pregunta recolectada: ${question.tema}`);
+            soundManager.play('fruitCollect', 'A4', '16n'); // Sonido diferente para fruta con pregunta
 
             gameState.currentQuestion = question;
             gameState.questionStartTime = Date.now();
@@ -2761,7 +2932,10 @@
                     </span>
                     ${opcion}
                 `;
-                btn.addEventListener("click", () => handleQuestionResponse(opcion));
+                btn.addEventListener("click", () => {
+                    soundManager.play('buttonClick', 'C5', '16n');
+                    handleQuestionResponse(opcion);
+                });
                 optionsContainerDialog.appendChild(btn);
             });
 
@@ -2823,6 +2997,9 @@
             gameState.questionsAnswered++;
             if (isCorrect) {
                 gameState.correctAnswers++;
+                soundManager.play('correctAnswer', 'G4', '8n');
+            } else {
+                soundManager.play('incorrectAnswer', 'C3', '8n');
             }
 
             // Calcular puntos
@@ -3014,9 +3191,9 @@
          */
         function getLevelChasePercentage() {
             switch(gameState.level) {
-                case 'easy': return 0.4;     // 40% persecución inteligente
+                case 'easy': return 0.4;   // 40% persecución inteligente
                 case 'medium': return 0.6;   // 60% persecución inteligente
-                case 'hard': return 0.75;    // 75% persecución inteligente
+                case 'hard': return 0.75;   // 75% persecución inteligente
                 case 'expert': return 0.85;  // 85% persecución inteligente
                 default: return 0.5;
             }
@@ -3083,6 +3260,7 @@
          */
         function handleGhostEaten(ghost) {
             console.log(`👻 Fantasma ${ghost.id} comido`);
+            soundManager.play('ghostEaten', 'A3', '4n');
 
             // Agregar puntos
             gameState.score += GAME_CONFIG.POINTS.GHOST_EATEN;
@@ -3113,6 +3291,7 @@
          */
         function handlePlayerCaught() {
             console.log("💔 Jugador atrapado por fantasma");
+            soundManager.play('playerCaught', null, '0.5s');
 
             gameState.lives--;
             showToast(
@@ -3257,6 +3436,11 @@
             if (gameState.gameCompleted) return; // Evitar múltiples llamadas
 
             console.log(`🎮 Finalizando juego - Victoria: ${victory}`);
+            if (victory) {
+                soundManager.play('gameWin', 'C5', '1s');
+            } else {
+                soundManager.play('gameOver', 'C2', '1s');
+            }
 
             // Marcar juego como completado
             gameState.gameCompleted = true;
@@ -3270,7 +3454,10 @@
             if (gameState.vulnerableGhostsTimer) {
                 clearTimeout(gameState.vulnerableGhostsTimer);
                 gameState.vulnerableGhostsTimer = null;
+                // soundManager.stopLoop('powerPelletActiveLoop'); // Asegurar que se detenga
             }
+             gameState.powerPelletActive = false; // Asegurar que el estado del power pellet se resetee
+
 
             // Ocultar diálogos de pregunta si están abiertos
             questionDialog.style.display = 'none';
@@ -3406,11 +3593,15 @@
             const changeLevelBtnDialog = document.getElementById("changeLevelBtnDialog");
 
             if (playAgainBtnDialog) {
-                playAgainBtnDialog.addEventListener("click", restartCurrentLevel);
+                playAgainBtnDialog.addEventListener("click", () => {
+                    soundManager.play('buttonClick', 'E5', '16n');
+                    restartCurrentLevel();
+                });
             }
 
             if (changeLevelBtnDialog) {
                 changeLevelBtnDialog.addEventListener("click", () => {
+                    soundManager.play('buttonClick', 'D5', '16n');
                     completionDialog.style.display = 'none';
                     resetGame();
                 });
@@ -3503,6 +3694,7 @@
          */
         function resetGame() {
             console.log("🔄 Reseteando juego completo");
+            soundManager.play('buttonClick', 'C4', '16n');
 
             // Limpiar intervalos y timers
             if (gameState.ghostMovementInterval) {
@@ -3512,7 +3704,9 @@
             if (gameState.vulnerableGhostsTimer) {
                 clearTimeout(gameState.vulnerableGhostsTimer);
                 gameState.vulnerableGhostsTimer = null;
+                // soundManager.stopLoop('powerPelletActiveLoop');
             }
+            gameState.powerPelletActive = false;
 
             // Limpiar event listeners
             document.removeEventListener("keydown", handleKeyDown);
@@ -3571,6 +3765,7 @@
                 (completionDialog && completionDialog.style.display !== 'none')) {
                 return;
             }
+            soundManager.play('buttonClick', 'D4', '16n');
 
             if (!gameState.paused) {
                 // Pausar juego
@@ -3580,6 +3775,7 @@
                     clearInterval(gameState.ghostMovementInterval);
                     gameState.ghostMovementInterval = null;
                 }
+                // if (gameState.powerPelletActive) soundManager.stopLoop('powerPelletActiveLoop');
                 
                 globalPauseBtn.textContent = "▶️ Reanudar";
                 showToast("⏸️ Pausado", "El juego está en pausa", "default");
@@ -3592,6 +3788,7 @@
                 if (!gameState.gameCompleted) { // Solo reiniciar si el juego no ha terminado
                     const ghostSpeed = GAME_CONFIG.LEVELS[gameState.level].ghostSpeed;
                     gameState.ghostMovementInterval = setInterval(moveGhosts, ghostSpeed);
+                    // if (gameState.powerPelletActive) soundManager.startLoop('powerPelletActiveLoop');
                 }
                 
                 globalPauseBtn.textContent = "⏸️ Pausar";
@@ -3689,8 +3886,8 @@
 
             // Detectar rendimiento (aproximado)
             const hasHighPerformance = window.devicePixelRatio <= 2 && 
-                                       window.innerWidth <= 1920 && 
-                                       !isMobile; 
+                                        window.innerWidth <= 1920 && 
+                                        !isMobile; 
 
             // Ajustar configuración según capacidades
             if (!hasHighPerformance) {
@@ -3802,6 +3999,7 @@
         console.log("   - Notificaciones y feedback inmediato");
         console.log("   - Análisis detallado de rendimiento");
         console.log("   - Controles globales de pausa/reinicio");
+        console.log("   - 🔊 Efectos de sonido con Tone.js (NUEVO)");
         console.log("");
         console.log("🎮 Para debug, usa: window.debugPhysicsGame()");
         console.log("📊 Para estadísticas, usa: window.gameStats()");
@@ -3825,3 +4023,7 @@
     </script>
 </body>
 </html>
+```
+He añadido un `soundManager` para manejar la inicialización y reproducción de los sonidos. Los sonidos se activarán con las acciones correspondientes. Recuerda que para que los sonidos funcionen, el usuario debe interactuar primero con la página (por ejemplo, haciendo clic en el botón "Comenzar Aventura Física"), lo cual ya está contemplado en el flujo del juego.
+
+Avísame si quieres ajustar algún sonido o añadir m
